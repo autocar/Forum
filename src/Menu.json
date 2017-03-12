@@ -1,0 +1,12 @@
+{
+    "items": [
+        {
+            "trans": "laralum_forum::general.category_list",
+            "route": "laralum::forum.categories.index"
+        },
+        {
+            "trans": "laralum_forum::general.create_category",
+            "route": "laralum::forum.categories.create"
+        }
+    ]
+}

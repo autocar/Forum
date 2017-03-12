@@ -1,0 +1,24 @@
+{
+    "name": "laralum/forum",
+    "description": "Forum module for laralum",
+    "require": {
+		"laralum/laralum": "dev-master"
+	},
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Erik Campobadal",
+            "email": "soc@erik.cat"
+        },
+        {
+            "name": "Aitor Riba",
+            "email": "contact@aitorriba.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Laralum\\Forum\\": "./src"
+        }
+    },
+    "minimum-stability": "dev"
+}
