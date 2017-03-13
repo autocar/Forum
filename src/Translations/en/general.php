@@ -28,7 +28,7 @@ return [
     'category_threads'    => 'Category Threads',
     'category_id'       => 'Category #:id',
     'category_desc'     => "You're viewing threads of category #:id",
-    'category_added'    => "Category Added!",
+    'category_created'  => "Category created!",
     'category_updated'  => "Category #:id Updated!",
 
 

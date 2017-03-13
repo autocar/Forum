@@ -15,8 +15,8 @@ class CreateLaralumForumComments extends Migration
     {
         Schema::create('laralum_forum_comments', function (Blueprint $table) {
             $table->increments('id');
-			$table->tinyInteger('user_id');
-			$table->tinyInteger('thread_id');
+			$table->integer('user_id');
+			$table->integer('thread_id');
 			$table->text('comment');
 			$table->timestamps();
         });

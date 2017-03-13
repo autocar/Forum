@@ -32,7 +32,7 @@
                     </div>
                 </div>
                 <div class="uk-card-body">
-                    <p>{{ str_limit($thread->content, $limit = 150, $end = '...') }}</p>
+                    <p>{!! str_limit(\GrahamCampbell\Markdown\Facades\Markdown::convertToHtml($thread->content), $limit = 150, $end = '...') !!}</p>
                 </div>
                 <div class="uk-card-footer">
                     <a href="{{ route('laralum::forum.categories.threads.show', ['category' => $category->id, 'thread' => $thread->id]) }}" class="uk-button uk-button-text">@lang('laralum_forum::general.view_thread')</a>

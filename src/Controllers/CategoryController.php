@@ -44,7 +44,7 @@ class CategoryController extends Controller
             'description' => 'required|max:100',
         ]);
         Category::create($request->all());
-        return redirect()->route('laralum::forum.categories.index')->with('success', __('laralum_forum::category_added'));
+        return redirect()->route('laralum::forum.categories.index')->with('success', __('laralum_forum::general.category_created'));
     }
 
     /**
@@ -83,7 +83,7 @@ class CategoryController extends Controller
             'description' => 'required|max:100',
         ]);
         $category->update($request->all());
-        return redirect()->route('laralum::forum.categories.index')->with('success', __('laralum_forum::category_updated',['id' => $category->id]));
+        return redirect()->route('laralum::forum.categories.index')->with('success', __('laralum_forum::general.category_updated',['id' => $category->id]));
     }
 
     /**

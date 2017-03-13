@@ -42,7 +42,7 @@ class ThreadController extends Controller
             'user_id' => Auth::id(),
             'category_id' => $category->id,
         ]);
-        return redirect()->route('laralum::forum.categories.show', ['category' => $category->id])->with('success', __('laralum_forum::category_created'));
+        return redirect()->route('laralum::forum.categories.show', ['category' => $category->id])->with('success', __('laralum_forum::general.category_created'));
     }
 
     /**

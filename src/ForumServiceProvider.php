@@ -127,6 +127,8 @@ class ForumServiceProvider extends ServiceProvider
         if (!$this->app->routesAreCached()) {
             require __DIR__.'/Routes/web.php';
         }
+        
+        $this->app->register('GrahamCampbell\\Markdown\\MarkdownServiceProvider');
 
         $this->loadMigrationsFrom(__DIR__.'/Migrations');
 
