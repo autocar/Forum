@@ -10,7 +10,7 @@
     </ul>
 @endsection
 @section('content')
-    @include('laralum_forum::categories.form', [
+    @include('laralum_forum::laralum.categories.form', [
         'action' => route('laralum::forum.categories.update', ['category' => $category->id]),
         'button' => __('laralum_forum::general.edit_category'),
         'title' => __('laralum_forum::general.create_category'),

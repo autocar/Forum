@@ -21,12 +21,12 @@
 
                 <p class="uk-article-meta">@lang('laralum_forum::general.written_by', ['username' => $thread->user->name, 'time_ago' => $thread->created_at->diffForHumans(), 'cat' => $thread->category->title])</p>
 
-                <p>{!! \GrahamCampbell\Markdown\Facades\Markdown::convertToHtml($thread->content) !!}</p>
+                <p>{!! $thread->content !!}</p>
 
                 <br>
                 <div class="uk-grid-small uk-child-width-1-1" uk-grid>
                     <span>
-                        <a class="uk-button uk-button-text" href="#comments">{{ trans_choice('laralum_forum::general.comments_choice', $thread->comments->count(), ['num' => $thread->comments->count()]) }}</a>
+                        <a class="uk-button uk-button-text" href="#comments" uk-scroll>{{ trans_choice('laralum_forum::general.comments_choice', $thread->comments->count(), ['num' => $thread->comments->count()]) }}</a>
                         <a class="uk-button uk-button-text uk-align-right" href="{{ route('laralum::forum.categories.threads.destroy.confirm', ['category' => $thread->category->id, 'thread' => $thread->id]) }}"> <i style="font-size:18px;" class="icon ion-trash-b"></i> @lang('laralum_forum::general.delete_thread')</a>
                         <a class="uk-button uk-button-text uk-align-right" href="{{ route('laralum::forum.categories.threads.edit', ['category' => $thread->category->id, 'thread' => $thread->id]) }}"><i style="font-size:18px;" class="icon ion-edit"></i> @lang('laralum_forum::general.edit_thread')</a>
                     </span>
@@ -37,7 +37,7 @@
     </div>
     </div>
     <br><br><br>
-    @can('access', \Laralum\Blog\Models\Comment::class)
+    @can('access', \Laralum\Forum\Models\Comment::class)
         <div id="comments">
             <div class="uk-card uk-card-default uk-card-body">
                 <h3 class="uk-card-title">@if($thread->comments->count()) @lang('laralum_forum::general.comments') @else @lang('laralum_forum::general.no_comments_yet') @endif</h3>
@@ -61,15 +61,15 @@
                                     <a class="uk-button uk-button-text uk-align-right" href="{{ route('laralum::forum.categories.threads.comments.destroy.confirm',['category' => $thread->category->id, 'thread' => $thread->id, 'comment' => $comment->id ]) }}"><i style="font-size:18px;" class="icon ion-trash-b"></i> @lang('laralum_forum::general.delete')</a>
                                 @endcan
                                 @can('update', $comment)
-                                    <button class="uk-button uk-button-text uk-align-right edit-comment-button" url="{{ route('laralum::forum.categories.threads.comments.update',['category' => $thread->category->id, 'thread' => $thread->id, 'comment' => $comment->id ]) }}"><i style="font-size:18px;" class="icon ion-edit"></i> @lang('laralum_forum::general.edit')</button>
+                                    <button class="uk-button uk-button-text uk-align-right edit-comment-button" data-comment="{{ $comment->comment }}" data-url="{{ route('laralum::forum.categories.threads.comments.update',['category' => $thread->category->id, 'thread' => $thread->id, 'comment' => $comment->id ]) }}"><i style="font-size:18px;" class="icon ion-edit"></i> @lang('laralum_forum::general.edit')</button>
                                 @endcan
-                                <p>{!! \GrahamCampbell\Markdown\Facades\Markdown::convertToHtml($comment->comment) !!}</p>
+                                <p class="comment">{{ $comment->comment }}</p>
                             </div>
                         </article>
                         <br>
                     @endcan
                 @endforeach
-                @can('create', \Laralum\Blog\Models\Comment::class)
+                @can('create', \Laralum\Forum\Models\Comment::class)
                 <article class="uk-comment uk-comment-primary">
                     <header class="uk-comment-header uk-grid-medium uk-flex-middle" uk-grid>
                         <div class="uk-width-auto">
@@ -86,11 +86,8 @@
                             {{ csrf_field() }}
                             <fieldset class="uk-fieldset">
                                 <div class="uk-margin">
-                                    <div class="uk-form-controls">
-                                        <textarea name="comment" class="uk-textarea" rows="4" placeholder="{{ __('laralum_forum::general.write_a_comment') }}">{{ old('comment') }}</textarea>
-                                    </div>
+                                    <textarea name="comment" class="uk-textarea" rows="8" placeholder="{{ __('laralum_forum::general.add_a_comment') }}">{{ old('comment') }}</textarea>
                                 </div>
-
                                 <div class="uk-margin">
                                     <button type="submit" class="uk-button uk-button-primary">
                                         <span class="ion-forward"></span>&nbsp; @lang('laralum_forum::general.submit')
@@ -103,38 +100,36 @@
                 @endcan
             </div>
         </div>
-        <form id="edit-comment-form" class="uk-hidden">
+        <form class="uk-form-stacked uk-hidden" id="edit-comment-form" method="POST">
             {{ csrf_field() }}
             {{ method_field('PATCH') }}
             <fieldset class="uk-fieldset">
                 <div class="uk-margin">
-                    <div class="uk-form-controls">
-                        <textarea name="comment" class="uk-textarea" rows="3" id="comment-textarea" placeholder="{{ __('laralum_forum::general.edit_a_comment') }}">{{ old('comment') }}</textarea>
-                    </div>
+                    <textarea name="comment" class="uk-textarea" id="comment-textarea" rows="8" placeholder="{{ __('laralum_forum::general.edit_a_comment') }}">{{ old('comment') }}</textarea>
                 </div>
-
                 <div class="uk-margin">
                     <button type="submit" class="uk-button uk-button-primary">
-                        <span class="ion-forward"></span>&nbsp; @lang('laralum_forum::general.edit')
+                        <span class="ion-forward"></span>&nbsp; @lang('laralum_forum::general.submit')
                     </button>
                 </div>
             </fieldset>
         </form>
     @endcan
-
 </div>
 @endsection
 @section('js')
     <script>
         $(function() {
             $('.edit-comment-button').click(function() {
+                $('.edit-comment-button').prop('disabled', false);
                 $(this).attr('disabled', 'disabled');
-                var url = $(this).attr('url');
-                var comment = $(this).next().html();
+                var url = $(this).data('url');
+                var comment = $(this).data('comment');
                 $('#comment-textarea').html(comment);
                 var form = $('#edit-comment-form').html();
                 $('.edit-comment-form').hide();
-                $(this).next().html('<form class="uk-form-stacked edit-comment-form" id="edit-comment-form" action="' + url + '" method="POST">' + form + '</form>');
+                $('.comment').removeClass("uk-hidden"); {{-- Show all comments --}}
+                $(this).next().html('<form class="uk-form-stacked edit-comment-form uk-animation-scale-up" id="edit-comment-form" action="' + url + '" method="POST">' + form + '</form><p class="comment uk-hidden">'+comment+'</p>');
             });
         });
     </script>

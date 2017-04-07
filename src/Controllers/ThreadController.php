@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use Laralum\Forum\Models\Category;
 use Laralum\Forum\Models\Thread;
 use Laralum\Forum\Models\Comment;
+use Laralum\Forum\Models\Settings;
 use Illuminate\Support\Facades\Auth;
+use GrahamCampbell\Markdown\Facades\Markdown;
 
 class ThreadController extends Controller
 {
@@ -20,7 +22,7 @@ class ThreadController extends Controller
     public function create(Category $category)
     {
         $this->authorize('create', Thread::class);
-        return view('laralum_forum::threads.create', ['category' => $category]);
+        return view('laralum_forum::laralum.threads.create', ['category' => $category]);
     }
 
     /**
@@ -33,12 +35,23 @@ class ThreadController extends Controller
     {
         $this->authorize('create', Thread::class);
         $this->validate($request, [
-            'title' => 'required|min:5|max:60',
-            'content' => 'required|max:1500',
+            'title' => 'required|max:255',
+            'description' => 'required|max:255',
+            'content' => 'required|max:2000',
         ]);
+
+        if (Settings::first()->text_editor == "markdown") {
+            $msg = Markdown::convertToHtml($request->content);
+        } elseif (Settings::first()->text_editor == "wysiwyg") {
+            $msg = $request->content;
+        } else {
+            $msg = htmlentities($request->content);
+        }
+
         Thread::create([
             'title' => $request->title,
-            'content' => $request->content,
+            'description' => $request->description,
+            'content' => $msg,
             'user_id' => Auth::id(),
             'category_id' => $category->id,
         ]);
@@ -54,7 +67,7 @@ class ThreadController extends Controller
     public function show(Category $category, Thread $thread)
     {
         $this->authorize('view', $thread);
-        return view('laralum_forum::threads.show', ['thread' => $thread]);
+        return view('laralum_forum::.laralum.threads.show', ['thread' => $thread]);
     }
 
     /**
@@ -66,7 +79,7 @@ class ThreadController extends Controller
     public function edit(Category $category, Thread $thread)
     {
         $this->authorize('update', $thread);
-        return view('laralum_forum::threads.edit', ['thread' => $thread]);
+        return view('laralum_forum::.laralum.threads.edit', ['thread' => $thread]);
     }
 
     /**
@@ -84,9 +97,17 @@ class ThreadController extends Controller
             'content' => 'required|max:1500',
         ]);
 
+        if (Settings::first()->text_editor == "markdown") {
+            $msg = Markdown::convertToHtml($request->content);
+        } elseif (Settings::first()->text_editor == "wysiwyg") {
+            $msg = $request->content;
+        } else {
+            $msg = htmlentities($request->content);
+        }
+
         $thread->update([
             'title' => $request->title,
-            'content' => $request->content,
+            'content' => $msg,
         ]);
 
         return redirect()->route('laralum::forum.categories.threads.show', ['category' => $category, 'thread' => $thread])->with('success', __('laralum_forum::general.thread_updated', ['id' => $thread->id]));

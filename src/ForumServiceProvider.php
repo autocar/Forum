@@ -8,9 +8,11 @@ use Illuminate\Support\Facades\Gate;
 use Laralum\Forum\Models\Category;
 use Laralum\Forum\Models\Comment;
 use Laralum\Forum\Models\Thread;
+use Laralum\Forum\Models\Settings;
 use Laralum\Forum\Policies\CategoryPolicy;
 use Laralum\Forum\Policies\CommentPolicy;
 use Laralum\Forum\Policies\ThreadPolicy;
+use Laralum\Forum\Policies\SettingsPolicy;
 
 use Laralum\Permissions\PermissionsChecker;
 
@@ -26,6 +28,7 @@ class ForumServiceProvider extends ServiceProvider
         Category::class => CategoryPolicy::class,
         Comment::class => CommentPolicy::class,
         Thread::class => ThreadPolicy::class,
+        Settings::class => SettingsPolicy::class,
     ];
 
     /**
@@ -109,6 +112,36 @@ class ForumServiceProvider extends ServiceProvider
             'slug' => 'laralum::forum.comments.delete',
             'desc' => "Allows delete forum comments",
         ],
+        [
+            'name' => 'Forum Comments Access (public)',
+            'slug' => 'laralum::forum.comments.access-public',
+            'desc' => "Grants access to forum comments",
+        ],
+        [
+            'name' => 'Create Forum Comments (public)',
+            'slug' => 'laralum::forum.comments.create-public',
+            'desc' => "Allows creating forum comments",
+        ],
+        [
+            'name' => 'Update Forum Comments (public)',
+            'slug' => 'laralum::forum.comments.update-public',
+            'desc' => "Allows updating forum comments",
+        ],
+        [
+            'name' => 'View Forum Comments (public)',
+            'slug' => 'laralum::forum.comments.view-public',
+            'desc' => "Allows view forum comments",
+        ],
+        [
+            'name' => 'Delete Forum Comments (public)',
+            'slug' => 'laralum::forum.comments.delete-public',
+            'desc' => "Allows delete forum comments",
+        ],
+        [
+            'name' => 'Update Forum Settings',
+            'slug' => 'laralum::forum.settings',
+            'desc' => "Allows update forum settings",
+        ],
     ];
 
     /**
@@ -127,7 +160,7 @@ class ForumServiceProvider extends ServiceProvider
         if (!$this->app->routesAreCached()) {
             require __DIR__.'/Routes/web.php';
         }
-        
+
         $this->app->register('GrahamCampbell\\Markdown\\MarkdownServiceProvider');
 
         $this->loadMigrationsFrom(__DIR__.'/Migrations');

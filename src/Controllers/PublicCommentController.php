@@ -9,7 +9,7 @@ use Laralum\Forum\Models\Thread;
 use Laralum\Forum\Models\Comment;
 use Illuminate\Support\Facades\Auth;
 
-class CommentController extends Controller
+class PublicCommentController extends Controller
 {
 
     /**
@@ -23,7 +23,7 @@ class CommentController extends Controller
      */
     public function store(Request $request, Category $category, Thread $thread)
     {
-        $this->authorize('create', Comment::class);
+        $this->authorize('publicCreate', Comment::class);
 
         $this->validate($request, [
             'comment' => 'required|max:500',
@@ -35,7 +35,7 @@ class CommentController extends Controller
             'comment' => $request->comment,
         ]);
 
-        return redirect()->route('laralum::forum.categories.threads.show', ['category' => $category->id, 'thread' => $thread->id])
+        return redirect()->route('laralum_public::forum.categories.threads.show', ['category' => $category->id, 'thread' => $thread->id])
             ->with('success', __('laralum_forum::general.comment_added'));
     }
 
@@ -51,7 +51,7 @@ class CommentController extends Controller
      */
     public function update(Request $request, Category $category, Thread $thread, Comment $comment)
     {
-        $this->authorize('update', $comment);
+        $this->authorize('publicUpdate', $comment);
 
         $this->validate($request, [
             'comment' => 'required|max:500',
@@ -61,29 +61,8 @@ class CommentController extends Controller
             'comment' => $request->comment
         ]);
 
-        return redirect()->route('laralum::forum.categories.threads.show', ['category' => $category->id, 'thread' => $thread->id])->with('success', __('laralum_forum::general.comment_updated', ['id' => $comment->id]));
-
-    }
-
-    /**
-     * confirm destroy of the specified resource from storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Laralum\Forum\Models\Category $category
-     * @param  \Laralum\Forum\Models\Thread $thread
-     * @param  \Laralum\Forum\Models\Comment $comment
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function confirmDestroy(Request $request, Category $category, Thread $thread, Comment $comment)
-    {
-        $this->authorize('delete', $comment);
-
-        return view('laralum::pages.confirmation', [
-            'method' => 'DELETE',
-            'message' => __('laralum_forum::general.sure_del_comment', ['comment' => $comment->comment]),
-            'action' => route('laralum::forum.categories.threads.comments.destroy', ['category' => $category->id, 'thread' => $thread->id, 'comment' => $comment->id]),
-        ]);
+        return redirect()->route('laralum_public::forum.categories.threads.show', ['category' => $category->id, 'thread' => $thread->id])
+            ->with('success', __('laralum_forum::general.comment_updated', ['id' => $comment->id]));
     }
 
     /**
@@ -97,9 +76,10 @@ class CommentController extends Controller
      */
     public function destroy(Category $category, Thread $thread, Comment $comment)
     {
-        $this->authorize('delete', $comment);
+        $this->authorize('publicDelete', $comment);
 
         $comment->delete();
-        return redirect()->route('laralum::forum.categories.threads.show', ['category' => $category->id, 'thread' => $thread->id])->with('success', __('laralum_forum::general.comment_deleted', ['id' => $comment->id]));
+        return redirect()->route('laralum_public::forum.categories.threads.show', ['category' => $category->id, 'thread' => $thread->id])
+            ->with('success', __('laralum_forum::general.comment_deleted', ['id' => $comment->id]));
     }
 }

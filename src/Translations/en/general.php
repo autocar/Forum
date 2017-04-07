@@ -13,6 +13,7 @@ return [
     'actions'         => 'Actions',
     'delete'          => 'Delete',
     'edit'            => 'Edit',
+    'update'          => 'Update',
     'create'          => 'Create',
     'description'     => 'Description',
     'submit'          => 'Submit',
@@ -20,6 +21,7 @@ return [
     'edit'            => 'Edit',
     'content'         => 'Content',
     'title'           => 'Title',
+    'view'            => 'View',
 
 
 
@@ -28,7 +30,7 @@ return [
     'category_threads'    => 'Category Threads',
     'category_id'       => 'Category #:id',
     'category_desc'     => "You're viewing threads of category #:id",
-    'category_created'  => "Category created!",
+    'category_added'    => "Category Added!",
     'category_updated'  => "Category #:id Updated!",
 
 
@@ -43,6 +45,7 @@ return [
 
     'thread'           => 'Thread',
     'view_thread'      => 'View Thread',
+    'no_threads_yet'   => 'There are no threads yet',
     'edit_thread'      => 'Edit Thread',
     'delete_thread'    => 'Delete Thread',
     'view_thread_desc' => "You're viewing thread #:id",
@@ -68,12 +71,22 @@ return [
     'comment_updated'   => 'Comment #:id updated!',
     'comment_deleted'   => 'Comment #:id deleted!',
     'no_comments_yet'   => 'No Comments yet',
-    'write_a_comment'   => 'Write a comment!',
-    'edit_a_comment'    => 'Edit this comment!',
-    'comment_sent'      => 'Comment sent!',
+    'add_a_comment'     => 'Add a public comment...',
+    'edit_a_comment'    => 'Edit this comment...',
+    'comment_added'     => 'Comment added!',
 
 
     'sure_del_category' => 'Are you sure you want to delete category ":category" ?',
     'sure_del_thread'     => 'Are you sure you want to delete thread ":thread" ?',
     'sure_del_comment'  => 'Are you sure you want to delete comment ":comment" ?',
+
+    'public_url'            => 'Public URL',
+    'select_editor'         => 'Please select a text editor',
+    'text_editor'           => 'Text Editor',
+    'plain_text'            => 'Plain text',
+    'markdown'              => 'Markdown',
+    'wysiwyg'               => 'WYSIWYG',
+    'text_editor_desc'      => 'Select a text editor for messages',
+    'save_settings'         => 'Update Forum settings',
+    'forum_settings_updated' => 'Forum settings updated',
 ];

@@ -11,20 +11,37 @@
                         {{ csrf_field() }}
                         @if(isset($method)) {{ method_field($method) }} @endif
                         <fieldset class="uk-fieldset">
-
-
                             <div class="uk-margin">
                                 <label class="uk-form-label">@lang('laralum_forum::general.title')</label>
                                 <div class="uk-form-controls">
                                     <input value="{{ old('title', isset($thread) ? $thread->title : '') }}" name="title" class="uk-input" type="text" placeholder="@lang('laralum_forum::general.title')">
                                 </div>
                             </div>
-
+                            <div class="uk-margin">
+                                <label class="uk-form-label">@lang('laralum_forum::general.description')</label>
+                                <div class="uk-form-controls">
+                                    <input value="{{ old('description', isset($thread) ? $thread->description : '') }}" name="description" class="uk-input" type="text" placeholder="@lang('laralum_forum::general.description')">
+                                </div>
+                            </div>
                             <div class="uk-margin">
                                 <label class="uk-form-label">@lang('laralum_forum::general.content')</label>
-                                <div class="uk-form-controls">
-                                    <textarea name="content" class="uk-textarea" rows="5" placeholder="{{ __('laralum_forum::general.content') }}">{{ old('description', isset($thread) ? $thread->content : '') }}</textarea>
-                                </div>
+                                @if ($settings->text_editor == 'wysiwyg')
+                                    <textarea name="content" rows="15">{{ old('content', isset($thread) ? $thread->content : '') }}</textarea>
+                                @else
+                                    @php
+                                    $text = old('content', isset($thread) ? $thread->content : '');
+                                    if ($settings->text_editor == 'markdown') {
+                                        $converter = new League\HTMLToMarkdown\HtmlConverter();
+                                        $text = $converter->convert($text);
+                                    }
+                                    @endphp
+                                    <textarea name="content" class="uk-textarea" rows="15" placeholder="{{ __('laralum_forum::general.content') }}">{{ $text }}</textarea>
+                                    @if ($settings->text_editor == 'markdown')
+                                        <i>@lang('laralum_forum::general.markdown')</i>
+                                    @else
+                                        <i>@lang('laralum_forum::general.plain_text')</i>
+                                    @endif
+                                @endif
                             </div>
 
                             <div class="uk-margin">
