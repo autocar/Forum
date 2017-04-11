@@ -13,6 +13,18 @@
                 @foreach ($category->threads as $thread)
                     <div>
                         <h3>{{ $thread->title }}</h3>
+                        @can('publicUpdate', $thread)
+                            <a href="{{ route('laralum_public::forum.threads.edit', ['thread' => $thread->id]) }}">@lang('laralum_forum::general.edit_thread')</a>
+                        @endcan
+                        @can('publicDelete', $thread)
+                            <form action="{{ route('laralum_public::forum.threads.destroy', ['thread' => $thread->id]) }}" method="post">
+                                {{ csrf_field() }}
+                                {{ method_field('DELETE') }}
+                                <button type="submit">
+                                    @lang('laralum_forum::general.delete_thread')
+                                </button>
+                            </form>
+                        @endcan
                         <p><time datetime="2016-04-01T19:00">{{ $thread->created_at->diffForHumans() }}</time></p>
                         <p>{{ $thread->description }}</p>
                         <a href="{{ route('laralum_public::forum.threads.show', ['thread' => $thread->id]) }}" >@lang('laralum_forum::general.view_thread')</a>

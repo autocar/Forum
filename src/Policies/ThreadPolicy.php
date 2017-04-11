@@ -46,6 +46,16 @@ class ThreadPolicy
         return User::findOrFail($user->id)->hasPermission('laralum::forum.threads.create');
     }
 
+    /**
+     * Determine if the current user can create threads on public views.
+     *
+     * @param  mixed  $user
+     * @return bool
+     */
+    public function publicCreate($user)
+    {
+        return User::findOrFail($user->id)->hasPermission('laralum::forum.threads.create-public');
+    }
 
     /**
      * Determine if the current user can view threads.
@@ -78,6 +88,20 @@ class ThreadPolicy
         return User::findOrFail($user->id)->hasPermission('laralum::forum.threads.update');
     }
 
+    /**
+     * Determine if the current user can update threads on public views.
+     *
+     * @param  mixed $user
+     * @param  \Laralum\Forum\Models\Thread $thread
+     * @return bool
+     */
+    public function publicUpdate($user, Thread $thread)
+    {
+        if ($thread->user->id == $user->id) {
+            return User::findOrFail($user->id)->hasPermission('laralum::forum.threads.update-public');
+        }
+        return false;
+    }
 
     /**
      * Determine if the current user can delete threads.
@@ -92,5 +116,20 @@ class ThreadPolicy
             return true;
         }
         return User::findOrFail($user->id)->hasPermission('laralum::forum.threads.delete');
+    }
+
+    /**
+     * Determine if the current user can delete threads on public views.
+     *
+     * @param  mixed $user
+     * @param  \Laralum\Forum\Models\Thread $thread
+     * @return bool
+     */
+    public function publicDelete($user, Thread $thread)
+    {
+        if ($thread->user->id == $user->id) {
+            return User::findOrFail($user->id)->hasPermission('laralum::forum.threads.delete-public');
+        }
+        return false;
     }
 }

@@ -113,29 +113,44 @@ class ForumServiceProvider extends ServiceProvider
             'desc' => "Allows delete forum comments",
         ],
         [
+            'name' => 'Create Forum Threads (public)',
+            'slug' => 'laralum::forum.threads.create-public',
+            'desc' => "Allows creating forum threads on public views",
+        ],
+        [
+            'name' => 'Update Forum Threads (public)',
+            'slug' => 'laralum::forum.threads.update-public',
+            'desc' => "Allows updating forum threads on public views",
+        ],
+        [
+            'name' => 'Delete Forum Threads (public)',
+            'slug' => 'laralum::forum.threads.delete-public',
+            'desc' => "Allows delete forum threads on public views",
+        ],
+        [
             'name' => 'Forum Comments Access (public)',
             'slug' => 'laralum::forum.comments.access-public',
-            'desc' => "Grants access to forum comments",
+            'desc' => "Grants access to forum comments on public views",
         ],
         [
             'name' => 'Create Forum Comments (public)',
             'slug' => 'laralum::forum.comments.create-public',
-            'desc' => "Allows creating forum comments",
+            'desc' => "Allows creating forum comments on public views",
         ],
         [
             'name' => 'Update Forum Comments (public)',
             'slug' => 'laralum::forum.comments.update-public',
-            'desc' => "Allows updating forum comments",
+            'desc' => "Allows updating forum comments on public views",
         ],
         [
             'name' => 'View Forum Comments (public)',
             'slug' => 'laralum::forum.comments.view-public',
-            'desc' => "Allows view forum comments",
+            'desc' => "Allows view forum comments on public views",
         ],
         [
             'name' => 'Delete Forum Comments (public)',
             'slug' => 'laralum::forum.comments.delete-public',
-            'desc' => "Allows delete forum comments",
+            'desc' => "Allows delete forum comments on public views",
         ],
         [
             'name' => 'Update Forum Settings',

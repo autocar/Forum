@@ -13,9 +13,16 @@ Route::group([
         'prefix' => $public_url,
         'as' => 'laralum_public::forum.'
     ], function () use ($public_url) {
+
         Route::get('/', 'PublicCategoryController@index')->name('categories.index');
         Route::get('/categories/{category}', 'PublicCategoryController@show')->name('categories.show');
+
         Route::get('/threads/{thread}', 'PublicThreadController@show')->name('threads.show');
+        Route::get('/threads' ,'PublicThreadController@create')->name('threads.create');
+        Route::post('/threads' ,'PublicThreadController@store')->name('threads.store');
+        Route::get('/threads/{thread}/edit' ,'PublicThreadController@edit')->name('threads.edit');
+        Route::patch('threads/{thread}' ,'PublicThreadController@update')->name('threads.update');
+        Route::delete('threads/{thread}' ,'PublicThreadController@destroy')->name('threads.destroy');
 
         Route::group([
                 'middleware' => [

@@ -53,12 +53,12 @@
             </span>
         </div>
         <br><br><br>
-        @can('access', \Laralum\Forum\Models\Comment::class)
+        @can('publicAccess', \Laralum\Forum\Models\Comment::class)
             <div id="comments">
                 <div class="uk-card uk-card-default uk-card-body">
                     <h3 class="uk-card-title">@if($thread->comments->count()) @lang('laralum_forum::general.comments') @else @lang('laralum_forum::general.no_comments_yet') @endif</h3>
                     @foreach ($thread->comments as $comment)
-                        @can('view', $comment)
+                        @can('publicView', $comment)
                             <article class="uk-comment uk-comment-primary">
                                 <header class="uk-comment-header uk-grid-medium uk-flex-middle" uk-grid>
 
@@ -73,14 +73,14 @@
                                     </div>
                                 </header>
                                 <div class="uk-comment-body">
-                                    @can('delete', $comment)
+                                    @can('publicDelete', $comment)
                                         <form action="{{ route('laralum_public::forum.comments.destroy',['category' => $thread->category->id, 'thread' => $thread->id, 'comment' => $comment->id ]) }}" method="thread">
                                             {{ csrf_field() }}
                                             {{ method_field('DELETE') }}
                                             <button type="submit" name="button">@lang('laralum_forum::general.delete')</button>
                                         </form>
                                     @endcan
-                                    @can('update', $comment)
+                                    @can('publicUpdate', $comment)
                                         <button class="uk-button uk-button-text uk-align-right edit-comment-button" data-comment="{{ $comment->comment }}" data-url="{{ route('laralum_public::forum.comments.update',['category' => $thread->category->id, 'thread' => $thread->id, 'comment' => $comment->id ]) }}">@lang('laralum_forum::general.edit')</button>
                                     @endcan
                                     <p class="comment">{{ $comment->comment }}</p>
@@ -89,7 +89,7 @@
                             <br>
                         @endcan
                     @endforeach
-                    @can('create', \Laralum\Forum\Models\Comment::class)
+                    @can('publicCreate', \Laralum\Forum\Models\Comment::class)
                                 <img src="{{ \Laralum\Users\Models\User::findOrFail(Auth::id())->avatar() }}" width="80" height="80" alt="">
                                 <h4><span>{{ \Laralum\Users\Models\User::findOrFail(Auth::id())->name }}</span></h4>
                         <div>

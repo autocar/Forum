@@ -111,6 +111,7 @@ class ThreadController extends Controller
         $thread->update([
             'title' => $request->title,
             'category_id' => $request->category,
+            'description' => $request->description,
             'content' => $msg,
         ]);
 
