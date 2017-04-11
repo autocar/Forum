@@ -22,7 +22,7 @@ Route::group([
                     'auth', 'can:publicAccess,Laralum\Forum\Models\Comment',
                 ],
             ], function () use ($public_url) {
-                Route::thread('/thread/{thread}/comments' ,'PublicCommentController@store')->name('comments.store');
+                Route::post('/thread/{thread}/comments' ,'PublicCommentController@store')->name('comments.store');
                 Route::patch('comments/{comment}' ,'PublicCommentController@update')->name('comments.update');
                 Route::delete('comments/{comment}' ,'PublicCommentController@destroy')->name('comments.destroy');
         });
@@ -53,7 +53,7 @@ Route::group([
                             'can:access,Laralum\Forum\Models\Comment',
                         ],
                     ], function () {
-                        Route::thread('/thread/{thread}/comments' ,'CommentController@store')->name('comments.store');
+                        Route::post('/thread/{thread}/comments' ,'CommentController@store')->name('comments.store');
                         Route::patch('comments/{comment}' ,'CommentController@update')->name('comments.update');
                         Route::get('comments/{comment}/destroy', 'CommentController@confirmDestroy')->name('comments.destroy.confirm');
                         Route::delete('comments/{comment}' ,'CommentController@destroy')->name('comments.destroy');
@@ -70,5 +70,5 @@ Route::group([
         'namespace' => 'Laralum\Forum\Controllers',
         'as' => 'laralum::forum.'
     ], function () {
-        Route::thread('/forum/settings', 'SettingsController@update')->name('settings.update');
+        Route::post('/forum/settings', 'SettingsController@update')->name('settings.update');
 });
