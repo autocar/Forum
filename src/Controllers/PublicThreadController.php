@@ -34,8 +34,8 @@ class PublicThreadController extends Controller
         $this->authorize('publicCreate', Thread::class);
         $this->validate($request, [
             'title' => 'required|max:255',
-            'description' => 'required|max:255',
             'category' => 'required|exists:laralum_forum_categories,id',
+            'description' => 'required|max:255',
             'content' => 'required|max:2000',
         ]);
 
@@ -93,8 +93,9 @@ class PublicThreadController extends Controller
         $this->authorize('update', $thread);
         $this->validate($request, [
             'title' => 'required|max:255',
-            'content' => 'required|max:2000',
             'category' => 'required|exists:laralum_forum_categories,id',
+            'content' => 'required|max:2000',
+            'description' => 'required|max:255',
         ]);
 
         if (Settings::first()->text_editor == "markdown") {

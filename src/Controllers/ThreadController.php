@@ -36,8 +36,8 @@ class ThreadController extends Controller
         $this->authorize('create', Thread::class);
         $this->validate($request, [
             'title' => 'required|max:255',
-            'description' => 'required|max:255',
             'category' => 'required|exists:laralum_forum_categories,id',
+            'description' => 'required|max:255',
             'content' => 'required|max:2000',
         ]);
 
@@ -96,8 +96,9 @@ class ThreadController extends Controller
         $this->authorize('update', $thread);
         $this->validate($request, [
             'title' => 'required|max:255',
-            'content' => 'required|max:2000',
             'category' => 'required|exists:laralum_forum_categories,id',
+            'description' => 'required|max:255',
+            'content' => 'required|max:2000',
         ]);
 
         if (Settings::first()->text_editor == "markdown") {
