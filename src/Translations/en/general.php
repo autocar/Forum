@@ -31,7 +31,8 @@ return [
     'category_id'       => 'Category #:id',
     'category_desc'     => "You're viewing threads of category #:id",
     'category_added'    => "Category Added!",
-    'category_updated'  => "Category #:id Updated!",
+    'category_updated'  => "Category #:id updated!",
+    'category_deleted'  => "Category #:id deleted!",
 
 
     'edit_category'   => 'Edit Category',
@@ -63,7 +64,7 @@ return [
     'edit_thread_desc'    => "You're editing thread #:id created :time_ago",
 
 
-    'written_by'        => 'Written by :username :time_ago. Threaded in  category :cat.',
+    'written_by'        => 'Written by :username :time_ago. Threaded in :cat category.',
     'comments_choice'   => ':num comment|:num comments',
     'comments'          => 'Comments',
     'edit_comment'      => 'Edit Comment',

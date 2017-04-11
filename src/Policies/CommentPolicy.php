@@ -139,10 +139,11 @@ class CommentPolicy
      */
     public function delete($user, Comment $comment)
     {
-        if ($comment->user->id == $user->id) {
+        $user = User::findOrFail($user->id);
+        if ($comment->user->id == $user->id || $user->hasPermission('laralum::forum.threads.delete')) {
             return true;
         }
-        return User::findOrFail($user->id)->hasPermission('laralum::forum.comments.delete');
+        return $user->hasPermission('laralum::forum.comments.delete');
     }
 
     /**
@@ -154,7 +155,8 @@ class CommentPolicy
      */
     public function publicDelete($user, Comment $comment)
     {
-        if ($comment->user->id == $user->id) {
+        $user = User::findOrFail($user->id);
+        if ($comment->user->id == $user->id || $user->hasPermission('laralum::forum.threads.delete')) {
             return true;
         }
         return User::findOrFail($user->id)->hasPermission('laralum::forum.comments.delete-public');

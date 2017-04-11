@@ -39,7 +39,7 @@
                                                     </a>
                                                     @can('update', $category)
                                                         <a class="uk-button uk-button-default uk-button-small" href="{{ route('laralum::forum.categories.edit', ['id' => $category->id]) }}">
-                                                            @lang('laralum_forum::general.update')
+                                                            @lang('laralum_forum::general.edit')
                                                         </a>
                                                     @else
                                                         <button disabled class="uk-button uk-button-default uk-button-small">

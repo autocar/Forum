@@ -7,6 +7,10 @@
         {
             "trans": "laralum_forum::general.create_category",
             "route": "laralum::forum.categories.create"
+        },
+        {
+            "trans": "laralum_forum::general.create_thread",
+            "route": "laralum::forum.threads.create"
         }
     ]
 }

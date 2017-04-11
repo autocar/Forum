@@ -46,10 +46,12 @@ class CategoryController extends Controller
         $this->authorize('create', Category::class);
 
         $this->validate($request, [
-            'name' => 'required|max:255',
+            'name' => 'required|unique:laralum_forum_categories,name|max:255',
         ]);
+
         Category::create($request->all());
-        return redirect()->route('laralum::forum.categories.index')->with('success', __('laralum_forum::category_added'));
+        return redirect()->route('laralum::forum.categories.index')
+            ->with('success', __('laralum_forum::general.category_added'));
     }
 
     /**
@@ -93,7 +95,8 @@ class CategoryController extends Controller
             'name' => 'required|max:255',
         ]);
         $category->update($request->all());
-        return redirect()->route('laralum::forum.categories.index')->with('success', __('laralum_forum::category_updated',['id' => $category->id]));
+        return redirect()->route('laralum::forum.categories.index')
+            ->with('success', __('laralum_forum::general.category_updated',['id' => $category->id]));
     }
 
     /**
@@ -123,10 +126,13 @@ class CategoryController extends Controller
     {
         $this->authorize('delete', $category);
 
-        $category->deleteComments();
-        $category->deleteThreads();
+        $category->threads->each(function($thread) {
+            $thread->update(['category_id' => Category::first()->id]);
+        });
+
         $category->delete();
 
-        return redirect()->route('laralum::forum.categories.index');
+        return redirect()->route('laralum::forum.categories.index')
+            ->with('success', __('laralum_forum::general.category_deleted', ['id' => $category->id]));
     }
 }

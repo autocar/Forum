@@ -15,23 +15,16 @@ Route::group([
     ], function () use ($public_url) {
         Route::get('/', 'PublicCategoryController@index')->name('categories.index');
         Route::get('/categories/{category}', 'PublicCategoryController@show')->name('categories.show');
-        Route::get('/categories/{category}/threads/{thread}', 'PublicThreadController@show')->name('categories.threads.show');
+        Route::get('/threads/{thread}', 'PublicThreadController@show')->name('threads.show');
 
         Route::group([
                 'middleware' => [
                     'auth', 'can:publicAccess,Laralum\Forum\Models\Comment',
                 ],
             ], function () use ($public_url) {
-                Route::resource('categories.threads.comments', 'PublicCommentController', [
-                    'names' => [
-                        'store'   => 'categories.threads.comments.store',
-                        'update'  => 'categories.threads.comments.update',
-                        'destroy' => 'categories.threads.comments.destroy',
-                    ],
-                    'only' => [
-                        'store', 'update', 'destroy'
-                    ],
-                ]);
+                Route::thread('/thread/{thread}/comments' ,'PublicCommentController@store')->name('comments.store');
+                Route::patch('comments/{comment}' ,'PublicCommentController@update')->name('comments.update');
+                Route::delete('comments/{comment}' ,'PublicCommentController@destroy')->name('comments.destroy');
         });
 
 });
@@ -53,15 +46,17 @@ Route::group([
                     'can:access,Laralum\Forum\Models\Thread',
                 ],
             ], function () {
-                Route::get('categories/{category}/threads/{thread}/delete', 'ThreadController@confirmDestroy')->name('categories.threads.destroy.confirm');
-                Route::resource('categories.threads', 'ThreadController', ['except' => ['index']]);
+                Route::get('threads/{thread}/delete', 'ThreadController@confirmDestroy')->name('threads.destroy.confirm');
+                Route::resource('threads', 'ThreadController', ['except' => ['index']]);
                 Route::group([
                         'middleware' => [
                             'can:access,Laralum\Forum\Models\Comment',
                         ],
                     ], function () {
-                        Route::get('categories/{category}/threads/{thread}/comment/{comment}/delete', 'CommentController@confirmDestroy')->name('categories.threads.comments.destroy.confirm');
-                        Route::resource('categories.threads.comments', 'CommentController', ['only' => ['store', 'update', 'destroy']]);
+                        Route::thread('/thread/{thread}/comments' ,'CommentController@store')->name('comments.store');
+                        Route::patch('comments/{comment}' ,'CommentController@update')->name('comments.update');
+                        Route::get('comments/{comment}/destroy', 'CommentController@confirmDestroy')->name('comments.destroy.confirm');
+                        Route::delete('comments/{comment}' ,'CommentController@destroy')->name('comments.destroy');
                 });
         });
 });
@@ -75,5 +70,5 @@ Route::group([
         'namespace' => 'Laralum\Forum\Controllers',
         'as' => 'laralum::forum.'
     ], function () {
-        Route::post('/forum/settings', 'SettingsController@update')->name('settings.update');
+        Route::thread('/forum/settings', 'SettingsController@update')->name('settings.update');
 });

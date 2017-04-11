@@ -19,10 +19,10 @@ class ThreadController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(Category $category)
+    public function create()
     {
         $this->authorize('create', Thread::class);
-        return view('laralum_forum::laralum.threads.create', ['category' => $category]);
+        return view('laralum_forum::laralum.threads.create', ['categories' => Category::all()]);
     }
 
     /**
@@ -31,12 +31,13 @@ class ThreadController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Category $category)
+    public function store(Request $request)
     {
         $this->authorize('create', Thread::class);
         $this->validate($request, [
             'title' => 'required|max:255',
             'description' => 'required|max:255',
+            'category' => 'required|exists:laralum_forum_categories,id',
             'content' => 'required|max:2000',
         ]);
 
@@ -53,18 +54,19 @@ class ThreadController extends Controller
             'description' => $request->description,
             'content' => $msg,
             'user_id' => Auth::id(),
-            'category_id' => $category->id,
+            'category_id' => $request->category,
         ]);
-        return redirect()->route('laralum::forum.categories.show', ['category' => $category->id])->with('success', __('laralum_forum::general.category_created'));
+        return redirect()->route('laralum::forum.categories.show', ['category' => $request->category])
+            ->with('success', __('laralum_forum::general.category_added'));
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \Laralum\Forum\Models\Thread $thread
      * @return \Illuminate\Http\Response
      */
-    public function show(Category $category, Thread $thread)
+    public function show(Thread $thread)
     {
         $this->authorize('view', $thread);
         return view('laralum_forum::.laralum.threads.show', ['thread' => $thread]);
@@ -73,28 +75,29 @@ class ThreadController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \Laralum\Forum\Models\Thread $thread
      * @return \Illuminate\Http\Response
      */
-    public function edit(Category $category, Thread $thread)
+    public function edit(Thread $thread)
     {
         $this->authorize('update', $thread);
-        return view('laralum_forum::.laralum.threads.edit', ['thread' => $thread]);
+        return view('laralum_forum::.laralum.threads.edit', ['thread' => $thread, 'categories' => Category::all()]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Laralum\Forum\Models\Thread $thread
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category, Thread $thread)
+    public function update(Request $request, Thread $thread)
     {
         $this->authorize('update', $thread);
         $this->validate($request, [
-            'title' => 'required|min:5|max:60',
-            'content' => 'required|max:1500',
+            'title' => 'required|max:255',
+            'content' => 'required|max:2000',
+            'category' => 'required|exists:laralum_forum_categories,id',
         ]);
 
         if (Settings::first()->text_editor == "markdown") {
@@ -107,10 +110,12 @@ class ThreadController extends Controller
 
         $thread->update([
             'title' => $request->title,
+            'category_id' => $request->category,
             'content' => $msg,
         ]);
 
-        return redirect()->route('laralum::forum.categories.threads.show', ['category' => $category, 'thread' => $thread])->with('success', __('laralum_forum::general.thread_updated', ['id' => $thread->id]));
+        return redirect()->route('laralum::forum.threads.show', ['thread' => $thread])
+            ->with('success', __('laralum_forum::general.thread_updated', ['id' => $thread->id]));
     }
 
     /**
@@ -118,13 +123,13 @@ class ThreadController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function confirmDestroy(Request $request, Category $category, Thread $thread)
+    public function confirmDestroy(Request $request, Thread $thread)
     {
         $this->authorize('delete', $thread);
         return view('laralum::pages.confirmation', [
             'method' => 'DELETE',
             'message' => __('laralum_forum::general.sure_del_thread', ['thread' => $thread->title]),
-            'action' => route('laralum::forum.categories.threads.destroy', ['category' => $category->id, 'thread' => $thread->id]),
+            'action' => route('laralum::forum.threads.destroy', ['thread' => $thread->id]),
         ]);
 
     }
@@ -136,11 +141,12 @@ class ThreadController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category, Thread $thread)
+    public function destroy(Thread $thread)
     {
         $this->authorize('delete', $thread);
         $thread->deleteComments();
         $thread->delete();
-        return redirect()->route('laralum::forum.categories.show', ['category' => $category->id])->with('success', __('laralum_forum::general.thread_deleted',['id' => $thread->id]));
+        return redirect()->route('laralum::forum.categories.index')
+            ->with('success', __('laralum_forum::general.thread_deleted',['id' => $thread->id]));
     }
 }

@@ -16,12 +16,11 @@ class PublicCommentController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \Laralum\Forum\Models\Category $category
-     * @param  \Laralum\Forum\Models\Thread $thread
+     * @param  \Laralum\Forum\Models\Thread  $thread
      *
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Category $category, Thread $thread)
+    public function store(Request $request, Thread $thread)
     {
         $this->authorize('publicCreate', Comment::class);
 
@@ -35,7 +34,7 @@ class PublicCommentController extends Controller
             'comment' => $request->comment,
         ]);
 
-        return redirect()->route('laralum_public::forum.categories.threads.show', ['category' => $category->id, 'thread' => $thread->id])
+        return redirect()->route('laralum_public::forum.threads.show', ['thread' => $thread->id])
             ->with('success', __('laralum_forum::general.comment_added'));
     }
 
@@ -43,13 +42,11 @@ class PublicCommentController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \Laralum\Forum\Models\Category $category
-     * @param  \Laralum\Forum\Models\Thread $thread
      * @param  \Laralum\Forum\Models\Comment $comment
      *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category, Thread $thread, Comment $comment)
+    public function update(Request $request, Comment $comment)
     {
         $this->authorize('publicUpdate', $comment);
 
@@ -61,25 +58,23 @@ class PublicCommentController extends Controller
             'comment' => $request->comment
         ]);
 
-        return redirect()->route('laralum_public::forum.categories.threads.show', ['category' => $category->id, 'thread' => $thread->id])
+        return redirect()->route('laralum_public::forum.threads.show', ['thread' => $comment->thread->id])
             ->with('success', __('laralum_forum::general.comment_updated', ['id' => $comment->id]));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \Laralum\Forum\Models\Category $category
-     * @param  \Laralum\Forum\Models\Thread $thread
      * @param  \Laralum\Forum\Models\Comment $comment
      *
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Category $category, Thread $thread, Comment $comment)
+    public function destroy(Comment $comment)
     {
         $this->authorize('publicDelete', $comment);
 
         $comment->delete();
-        return redirect()->route('laralum_public::forum.categories.threads.show', ['category' => $category->id, 'thread' => $thread->id])
+        return redirect()->route('laralum_public::forum.threads.show', ['thread' => $comment->thread->id])
             ->with('success', __('laralum_forum::general.comment_deleted', ['id' => $comment->id]));
     }
 }

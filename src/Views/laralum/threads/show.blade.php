@@ -18,17 +18,20 @@
             <article class="uk-article">
 
                 <h1 class="uk-article-title"><a class="uk-link-reset" href="">{{ $thread->title }}</a></h1>
-
-                <p class="uk-article-meta">@lang('laralum_forum::general.written_by', ['username' => $thread->user->name, 'time_ago' => $thread->created_at->diffForHumans(), 'cat' => $thread->category->title])</p>
+                <p class="uk-article-meta">@lang('laralum_forum::general.written_by', ['username' => $thread->user->name, 'time_ago' => $thread->created_at->diffForHumans(), 'cat' => $thread->category->name])</p>
 
                 <p>{!! $thread->content !!}</p>
 
                 <br>
                 <div class="uk-grid-small uk-child-width-1-1" uk-grid>
                     <span>
-                        <a class="uk-button uk-button-text" href="#comments" uk-scroll>{{ trans_choice('laralum_forum::general.comments_choice', $thread->comments->count(), ['num' => $thread->comments->count()]) }}</a>
-                        <a class="uk-button uk-button-text uk-align-right" href="{{ route('laralum::forum.categories.threads.destroy.confirm', ['category' => $thread->category->id, 'thread' => $thread->id]) }}"> <i style="font-size:18px;" class="icon ion-trash-b"></i> @lang('laralum_forum::general.delete_thread')</a>
-                        <a class="uk-button uk-button-text uk-align-right" href="{{ route('laralum::forum.categories.threads.edit', ['category' => $thread->category->id, 'thread' => $thread->id]) }}"><i style="font-size:18px;" class="icon ion-edit"></i> @lang('laralum_forum::general.edit_thread')</a>
+                        <a class="uk-button uk-button-text" href="#comments">{{ trans_choice('laralum_forum::general.comments_choice', $thread->comments->count(), ['num' => $thread->comments->count()]) }}</a>
+                        @can('delete', $thread)
+                            <a class="uk-button uk-button-text uk-align-right" href="{{ route('laralum::forum.threads.destroy.confirm', ['thread' => $thread->id]) }}"> <i style="font-size:18px;" class="icon ion-trash-b"></i> @lang('laralum_forum::general.delete_thread')</a>
+                        @endcan
+                        @can('edit', $thread)
+                            <a class="uk-button uk-button-text uk-align-right" href="{{ route('laralum::forum.threads.edit', ['thread' => $thread->id]) }}"><i style="font-size:18px;" class="icon ion-edit"></i> @lang('laralum_forum::general.edit_thread')</a>
+                        @endcan
                     </span>
                 </div>
 
@@ -58,10 +61,10 @@
                             </header>
                             <div class="uk-comment-body">
                                 @can('delete', $comment)
-                                    <a class="uk-button uk-button-text uk-align-right" href="{{ route('laralum::forum.categories.threads.comments.destroy.confirm',['category' => $thread->category->id, 'thread' => $thread->id, 'comment' => $comment->id ]) }}"><i style="font-size:18px;" class="icon ion-trash-b"></i> @lang('laralum_forum::general.delete')</a>
+                                    <a class="uk-button uk-button-text uk-align-right" href="{{ route('laralum::forum.comments.destroy.confirm',['comment' => $comment->id ]) }}"><i style="font-size:18px;" class="icon ion-trash-b"></i> @lang('laralum_forum::general.delete')</a>
                                 @endcan
                                 @can('update', $comment)
-                                    <button class="uk-button uk-button-text uk-align-right edit-comment-button" data-comment="{{ $comment->comment }}" data-url="{{ route('laralum::forum.categories.threads.comments.update',['category' => $thread->category->id, 'thread' => $thread->id, 'comment' => $comment->id ]) }}"><i style="font-size:18px;" class="icon ion-edit"></i> @lang('laralum_forum::general.edit')</button>
+                                    <button class="uk-button uk-button-text uk-align-right edit-comment-button" data-comment="{{ $comment->comment }}" data-url="{{ route('laralum::forum.comments.update',['comment' => $comment->id ]) }}"><i style="font-size:18px;" class="icon ion-edit"></i> @lang('laralum_forum::general.edit')</button>
                                 @endcan
                                 <p class="comment">{{ $comment->comment }}</p>
                             </div>
@@ -82,7 +85,7 @@
 
                     <div class="uk-comment-body">
 
-                        <form class="uk-form-stacked" method="POST" action="{{ route('laralum::forum.categories.threads.comments.store',['category' => $thread->category->id, 'thread' => $thread->id]) }}">
+                        <form class="uk-form-stacked" method="POST" action="{{ route('laralum::forum.comments.store',['thread' => $thread->id]) }}">
                             {{ csrf_field() }}
                             <fieldset class="uk-fieldset">
                                 <div class="uk-margin">

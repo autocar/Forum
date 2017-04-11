@@ -3,6 +3,7 @@
 namespace Laralum\Forum\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Laralum\Forum\Models\Category;
 use Laralum\Forum\Models\Thread;
 use Laralum\Forum\Models\Comment;
 

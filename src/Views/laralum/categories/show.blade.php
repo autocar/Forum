@@ -11,8 +11,6 @@
 @endsection
 @section('content')
 <div class="uk-container uk-container-large">
-    <center><a @cannot('create', \laralum\Forum\Models\Thread::class) disabled @endcannot href="{{ route('laralum::forum.categories.threads.create', ['category' => $category->id]) }}" class="uk-button uk-button-primary uk-width-1-3 uk-margin-small-bottom">@lang('laralum_forum::general.create_thread')</a></center>
-    <br>
     <div class="uk-child-width-1-2@m uk-child-width-1-1@s uk-grid-match" uk-grid>
         @if ($category->threads->count())
             @foreach ($category->threads as $thread)
@@ -30,7 +28,7 @@
                             <p>{{ $thread->description }}</p>
                         </div>
                         <div class="uk-card-footer">
-                            <a href="{{ route('laralum::forum.categories.threads.show', ['category' => $category->id, 'thread' => $thread->id]) }}" class="uk-button uk-button-text">@lang('laralum_forum::general.view_thread')</a>
+                            <a href="{{ route('laralum::forum.threads.show', ['thread' => $thread->id]) }}" class="uk-button uk-button-text">@lang('laralum_forum::general.view_thread')</a>
                             <span class="uk-align-right">{{ $thread->comments->count() }} <i style="font-size:20px;" class="icon ion-chatboxes"></i></span>
                         </div>
                     </div>

@@ -1,5 +1,6 @@
 <?php
 
+use Laralum\Forum\Models\Category;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -13,6 +14,10 @@ class CreateLaralumForumCategoriesTable extends Migration {
 			$table->string('name');
 			$table->timestamps();
 		});
+
+		Category::create([
+			'name' => 'Uncategorized',
+		]);
 	}
 
 	public function down()
