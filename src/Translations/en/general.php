@@ -90,4 +90,8 @@ return [
     'text_editor_desc'      => 'Select a text editor for messages',
     'save_settings'         => 'Update Forum settings',
     'forum_settings_updated' => 'Forum settings updated',
+
+    'latest_forum_threads'   => 'Latest Forum Threads',
+    'new_threads'          => 'New Threads',
+
 ];

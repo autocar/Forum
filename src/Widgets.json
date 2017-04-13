@@ -1,0 +1,6 @@
+[
+    {
+        "view": "laralum_forum::widgets.threads",
+        "permission": "laralum::forum.threads.access"
+    }
+]
