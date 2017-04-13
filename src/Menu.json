@@ -1,14 +1,17 @@
 {
     "items": [
         {
+            "permission": "laralum::forum.categories.access",
             "trans": "laralum_forum::general.category_list",
             "route": "laralum::forum.categories.index"
         },
         {
+            "permission": "laralum::forum.categories.create",
             "trans": "laralum_forum::general.create_category",
             "route": "laralum::forum.categories.create"
         },
         {
+            "permission": "laralum::forum.threads.create",
             "trans": "laralum_forum::general.create_thread",
             "route": "laralum::forum.threads.create"
         }
