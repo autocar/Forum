@@ -1,9 +1,9 @@
 <?php
 
-use Laralum\Forum\Models\Settings;
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+use Laralum\Forum\Models\Settings;
 
 class CreateLaralumForumSettings extends Migration
 {
@@ -22,8 +22,8 @@ class CreateLaralumForumSettings extends Migration
         });
 
         Settings::create([
-            'text_editor' => "markdown",
-            'public_url' => "forum",
+            'text_editor' => 'markdown',
+            'public_url'  => 'forum',
         ]);
     }
 

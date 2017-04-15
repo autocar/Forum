@@ -3,10 +3,7 @@
 namespace Laralum\Forum\Controllers;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Laralum\Forum\Models\Category;
-use Laralum\Forum\Models\Thread;
-use Laralum\Forum\Models\Comment;
 
 class PublicCategoryController extends Controller
 {
@@ -18,14 +15,15 @@ class PublicCategoryController extends Controller
     public function index()
     {
         $categories = Category::all();
+
         return view('laralum_forum::public.categories.index', ['categories' => $categories]);
     }
-
 
     /**
      * Display the specified resource.
      *
-     * @param  \Laralum\Forum\Models\Category $category
+     * @param \Laralum\Forum\Models\Category $category
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(Category $category)

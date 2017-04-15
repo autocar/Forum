@@ -4,19 +4,17 @@ namespace Laralum\Forum\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Laralum\Forum\Models\Category;
-use Laralum\Forum\Models\Thread;
-use Laralum\Forum\Models\Comment;
 use Illuminate\Support\Facades\Auth;
+use Laralum\Forum\Models\Comment;
+use Laralum\Forum\Models\Thread;
 
 class PublicCommentController extends Controller
 {
-
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Laralum\Forum\Models\Thread  $thread
+     * @param \Illuminate\Http\Request     $request
+     * @param \Laralum\Forum\Models\Thread $thread
      *
      * @return \Illuminate\Http\Response
      */
@@ -29,9 +27,9 @@ class PublicCommentController extends Controller
         ]);
 
         Comment::create([
-            'user_id' => Auth::id(),
+            'user_id'   => Auth::id(),
             'thread_id' => $thread->id,
-            'comment' => $request->comment,
+            'comment'   => $request->comment,
         ]);
 
         return redirect()->route('laralum_public::forum.threads.show', ['thread' => $thread->id])
@@ -41,8 +39,8 @@ class PublicCommentController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Laralum\Forum\Models\Comment $comment
+     * @param \Illuminate\Http\Request      $request
+     * @param \Laralum\Forum\Models\Comment $comment
      *
      * @return \Illuminate\Http\Response
      */
@@ -55,7 +53,7 @@ class PublicCommentController extends Controller
         ]);
 
         $comment->update([
-            'comment' => $request->comment
+            'comment' => $request->comment,
         ]);
 
         return redirect()->route('laralum_public::forum.threads.show', ['thread' => $comment->thread->id])
@@ -65,7 +63,7 @@ class PublicCommentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \Laralum\Forum\Models\Comment $comment
+     * @param \Laralum\Forum\Models\Comment $comment
      *
      * @return \Illuminate\Http\Response
      */
@@ -74,6 +72,7 @@ class PublicCommentController extends Controller
         $this->authorize('publicDelete', $comment);
 
         $comment->delete();
+
         return redirect()->route('laralum_public::forum.threads.show', ['thread' => $comment->thread->id])
             ->with('success', __('laralum_forum::general.comment_deleted', ['id' => $comment->id]));
     }
