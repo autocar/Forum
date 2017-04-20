@@ -165,6 +165,12 @@ class ForumServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
+        $this->app->register('GrahamCampbell\\Markdown\\MarkdownServiceProvider');
+        
+        $this->publishes([
+            __DIR__.'/Views/public' => resource_path('views/vendor/laralum_forum/public'),
+        ], 'laralum_forum');
+        
         $this->loadViewsFrom(__DIR__.'/Views', 'laralum_forum');
 
         $this->loadTranslationsFrom(__DIR__.'/Translations', 'laralum_forum');
@@ -172,8 +178,6 @@ class ForumServiceProvider extends ServiceProvider
         if (!$this->app->routesAreCached()) {
             require __DIR__.'/Routes/web.php';
         }
-
-        $this->app->register('GrahamCampbell\\Markdown\\MarkdownServiceProvider');
 
         $this->loadMigrationsFrom(__DIR__.'/Migrations');
 
