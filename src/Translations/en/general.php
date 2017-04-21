@@ -81,6 +81,9 @@ return [
     'markdown'               => 'Markdown',
     'wysiwyg'                => 'WYSIWYG',
     'text_editor_desc'       => 'Select a text editor for messages',
+    'unauthorized_action'    => 'Unauthorized Action',
+    'unauthorized_desc'      => "You're not allowed to update the forum settings.",
+    'contact_webmaster'      => 'If you think you should be able to update it, please contact webmaster.',
     'save_settings'          => 'Update Forum settings',
     'forum_settings_updated' => 'Forum settings updated',
 
