@@ -18,7 +18,6 @@ return [
     'description'     => 'Description',
     'submit'          => 'Submit',
     'cancel'          => 'Cancel',
-    'edit'            => 'Edit',
     'content'         => 'Content',
     'title'           => 'Title',
     'view'            => 'View',
@@ -51,10 +50,7 @@ return [
     'thread_updated'   => 'Thread #:id updated!',
     'thread_deleted'   => 'Thread #:id deleted!',
 
-    'edit_thread'         => 'Edit Thread',
     'create_thread'       => 'Create Thread',
-    'categories_desc'     => 'Categories will allow you to separate threads into independent sections.',
-    'categories'          => 'Categories',
     'create_thread_desc'  => 'Create a new thread to the database',
     'edit_thread_desc'    => "You're editing thread #:id created :time_ago",
 
