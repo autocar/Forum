@@ -21,7 +21,7 @@ return [
     'content'                => 'Inhalt',
     'title'                  => 'Titel',
     'view'                   => 'Anzeigen',
-    
+
     'category'               => 'Kategorie',
     'view_category'          => 'Kategorie anzeigen',
     'category_threads'       => 'Kategorie Threads',
@@ -30,7 +30,7 @@ return [
     'category_added'         => 'Kategorie hinzugefügt!',
     'category_updated'       => 'Kategorie #:id aktualisiert!',
     'category_deleted'       => 'Kategorie #:id gelöscht!',
-    
+
     'edit_category'          => 'Kategorie bearbeiten',
     'create_category'        => 'Kategorie erstellen',
     'categories_desc'        => 'Kategorien erlauben es Ihnen, Fäden in unabhängige Abschnitte zu trennen.',
@@ -38,7 +38,7 @@ return [
     'category_list'          => 'Kategorie-Liste',
     'create_category_desc'   => 'Erstellen Sie eine neue Kategorie zur Datenbank',
     'edit_category_desc'     => 'Sie bearbeiten die Kategorie #:id erstellt :time_ago',
-    
+
     'thread'                 => 'Thema',
     'view_thread'            => 'Thema ansehen',
     'no_threads_yet'         => 'Es gibt noch keine Themen',
@@ -49,11 +49,11 @@ return [
     'thread_created'         => 'Thema erstellt!',
     'thread_updated'         => 'Thema #:id aktualisiert!',
     'thread_deleted'         => 'Thema #:id gelöscht!',
-    
+
     'create_thread'          => 'Erstelle einen Thread',
     'create_thread_desc'     => 'Erstellen Sie einen neuen Thread',
     'edit_thread_desc'       => 'Sie bearbeiten den Thread #:id erstellt :time_ago',
-    
+
     'written_by'             => 'Geschrieben von :username :time_ago. Threaded in :cat Kategorie.',
     'comments_choice'        => 'Var0 Kommentar | :num Kommentare',
     'comments'               => 'Kommentare',
@@ -65,11 +65,11 @@ return [
     'add_a_comment'          => 'Kommentar hinzufügen ...',
     'edit_a_comment'         => 'Diesen Kommentar bearbeiten ...',
     'comment_added'          => 'Kommentar hinzugefügt!',
-    
+
     'sure_del_category'      => 'Sind Sie sicher, dass Sie die Kategorie ":category" löschen möchten?',
     'sure_del_thread'        => 'Sind Sie sicher, dass Sie den Thread ":thread" löschen möchten?',
     'sure_del_comment'       => 'Sind Sie sicher, dass du den Kommentar ":comment" löschen möchtest?',
-    
+
     'public_url'             => 'Öffentliche URL',
     'select_editor'          => 'Bitte wählen Sie einen Texteditor',
     'text_editor'            => 'Text-Editor',
@@ -82,7 +82,7 @@ return [
     'contact_webmaster'      => 'Wenn du denkst, du solltest ein update durchzuführen dürfen, wende dich an den Webadmin.',
     'save_settings'          => 'Forum-Einstellungen aktualisieren',
     'forum_settings_updated' => 'Forum-Einstellungen aktualisiert',
-    
+
     'latest_forum_threads'   => 'Neueste Forum Threads',
     'new_threads'            => 'Neue Threads',
 ];
