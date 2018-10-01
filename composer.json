@@ -3,7 +3,7 @@
     "description": "Forum module for laralum",
     "require": {
 	"laralum/laralum": "1.*",
-        "graham-campbell/markdown": "7.*",
+	"graham-campbell/markdown": "7.*|8.*",
         "league/html-to-markdown": "4.*"
     },
     "license": "MIT",
